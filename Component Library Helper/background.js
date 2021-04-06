@@ -51,6 +51,7 @@ var listOfComponents = [
     ['Card Band', 'Card_Band.html'],
     ['Fancy Callout', 'Fancy_Callout.html'],
     ['Feature Tiles', 'Feature_Tiles.html'],
+    ['Hero', 'Hero_Full.html'],
     ['Image with 3 Tabs', 'Image_with_3_Tabs.html'],
     ['Image with Tiles', 'Image_with_Tiles.html'],
     ['Intro', 'Intro.html'],
