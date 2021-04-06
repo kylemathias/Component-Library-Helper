@@ -11,3 +11,9 @@ for(var i = 0; i < allComponents.length; i++ ){
 }
  
 })();
+
+chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+    
+    console.log(response.farewell);
+  });
+  

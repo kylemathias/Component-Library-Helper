@@ -73,6 +73,8 @@ var listOfComponents = [
     ['Tabbed Band', 'Tabbed_Band.html']
 ]
 
+listOfComponents.sort();//put the array in order so the menu is in alphabetical order
+
 for (var j = 0; j < listOfComponents.length; j++) {
     chrome.contextMenus.create({
             "title": listOfComponents[j][0],
@@ -146,6 +148,18 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     chrome.tabs.executeScript(null, { file: "jquery-3.6.0.slim.min.js" }, function() {
         chrome.tabs.executeScript(null, { file: "getDomComponentTabs.js" },);
 	});
+    
 
 });
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      console.log(sender.tab ?
+                  "from a content script: " + sender.tab.url :
+                  "from the extension");
+                  console.log(sendResponse);
+      if (request.greeting == "hello")
+        sendResponse({farewell: "goodbye"});        
+        
+    }
+  );
 

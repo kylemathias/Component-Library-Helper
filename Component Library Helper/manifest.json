@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Component Library Helper",
-    "version": "1.3",
+    "version": "1.4",
     "description": "Simple list of Component Templates for NetApp.com that can be used in NewsCred/Welcome.",
     "icons": {
         "16": "/media/thumb2.png",
