@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Component Library Helper",
-    "version": "1.4",
+    "version": "1.5",
     "description": "Simple list of Component Templates for NetApp.com that can be used in NewsCred/Welcome.",
     "icons": {
         "16": "/media/thumb2.png",
@@ -22,12 +22,11 @@
     },
     "permissions": [
         "contextMenus",
-        "https://www.netapp.com/",
-        "tabs"
+        "https://www.netapp.com/"
     ],
     "content_scripts": [ 
         { 
-            "js": [ "jquery-3.6.0.slim.min.js", "background.js" ],
+            "js": [ "jquery-3.6.0.slim.min.js" ],
              "matches": [ "https://www.netapp.com/"]
          }
      ]

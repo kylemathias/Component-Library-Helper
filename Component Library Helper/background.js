@@ -1,6 +1,22 @@
+var welcomeapitemplates = "https://api.welcomesoftware.com/v2/feed/fec5e597c79e11ea999d0a8145379887?format=json"
+//var xhr = new XMLHttpRequest();
+
+//xhr.open("GET", welcomeapitemplates, false);
+//xhr.send();
+
+//var result = JSON.parse(xhr.responseText);
+//var result = eval('(' + xhr.responseText + ')');
+
+//console.log(result); //work print json data
 var contextMenus = {};
 var currentDom;
-
+if (jQuery) {
+    // jQuery loaded
+    console.log("jQuery loaded");
+} else {
+    // jQuery not loaded
+    console.log("jQuery not loaded");
+}
 
 
 
@@ -20,11 +36,9 @@ function sendPasteToContentScript(toBePasted) {
 contextMenus.createCounterString =
 
     chrome.contextMenus.create({
-            "title": "Component Library",
-            "id": "parent"
-        },
-
-    );
+        "title": "Component Library",
+        "id": "parent"
+    }, )
 
 
 chrome.contextMenus.create({
@@ -68,13 +82,15 @@ var listOfComponents = [
     ['ProseGroup Region', 'ProseGroup_Region.html'],
     ['Quote Band', 'Quote_Band.html'],
     ['Section Header', 'Section_HEader.html'],
+    ['SEO - URL & Breadcrumb', 'SEO-_URL_Breadcrumb.html'],
     ['Showcase Product', 'Showcase_Product.html'],
     ['Stat Band', 'Stat_Band.html'],
     ['Tabbed Band with Tiles', 'Tabbed_Band_Tiles.html'],
-    ['Tabbed Band', 'Tabbed_Band.html']
+    ['Tabbed Band', 'Tabbed_Band.html'],
+    ['Title', 'Title.html']
 ]
 
-listOfComponents.sort();//put the array in order so the menu is in alphabetical order
+listOfComponents.sort(); //put the array in order so the menu is in alphabetical order
 
 for (var j = 0; j < listOfComponents.length; j++) {
     chrome.contextMenus.create({
@@ -146,21 +162,31 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 });
 
 chrome.browserAction.onClicked.addListener(function (tab) {
-    chrome.tabs.executeScript(null, { file: "jquery-3.6.0.slim.min.js" }, function() {
-        chrome.tabs.executeScript(null, { file: "getDomComponentTabs.js" },);
-	});
-    
+    chrome.tabs.executeScript(null, {
+        file: "jquery-3.6.0.slim.min.js"
+    }, function () {
+        chrome.tabs.executeScript(null, {
+            file: "getDomComponentTabs.js"
+        }, );
+    });
+
 
 });
 chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-      console.log(sender.tab ?
-                  "from a content script: " + sender.tab.url :
-                  "from the extension");
-                  console.log(sendResponse);
-      if (request.greeting == "hello")
-        sendResponse({farewell: "goodbye"});        
-        
-    }
-  );
+    function (request, sender, sendResponse) {
+        console.log(sender.tab ?
+            "from a content script: " + sender.tab.url :
+            "from the extension");
+        console.log("======sendResponse====== ");
+        console.log(sendResponse);
+        console.log("======sender====== ");
+        console.log(sender);
+        console.log("======request====== ");
+        console.log(request);
+        if (request.greeting == "hello")
+            sendResponse({
+                farewell: "goodbye"
+            });
 
+    }
+);
