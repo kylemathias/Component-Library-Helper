@@ -22,12 +22,14 @@
     },
     "permissions": [
         "contextMenus",
-        "https://www.netapp.com/"
+        "https://www.netapp.com/",
+        "https://ntapwwwprodstage-web9.azurewebsites.net/"
     ],
     "content_scripts": [ 
         { 
             "js": [ "jquery-3.6.0.slim.min.js" ],
-             "matches": [ "https://www.netapp.com/"]
+             "matches": [ "https://www.netapp.com/",
+            "https://ntapwwwprodstage-web9.azurewebsites.net/"]
          }
      ]
 
