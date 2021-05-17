@@ -10,13 +10,7 @@ var welcomeapitemplates = "https://api.welcomesoftware.com/v2/feed/fec5e597c79e1
 //console.log(result); //work print json data
 var contextMenus = {};
 var currentDom;
-if (jQuery) {
-    // jQuery loaded
-    console.log("jQuery loaded");
-} else {
-    // jQuery not loaded
-    console.log("jQuery not loaded");
-}
+
 
 
 
@@ -57,38 +51,41 @@ chrome.contextMenus.create({
 //listOfComponents[i][0] this is the Name in the menu
 //listOfComponents[i][1] this is the file inside the component folder
 var listOfComponents = [
-    ['Side by Side 2 Tab', 'Side_x_Side_2_Tabs.html'],
-    ['Accordions', 'Accordions.html'],
-    ['Back to Top', 'Back_to_Top.html'],
-    ['Callout', 'Callout.html'],
-    ['Card Band With Images', 'Card_Band_Images.html'],
-    ['Card Band', 'Card_Band.html'],
-    ['Fancy Callout', 'Fancy_Callout.html'],
-    ['Feature Tiles', 'Feature_Tiles.html'],
-    ['Hero', 'Hero_Full.html'],
-    ['Image with 3 Tabs', 'Image_with_3_Tabs.html'],
-    ['Image with Tiles', 'Image_with_Tiles.html'],
-    ['Intro', 'Intro.html'],
-    ['Logo Band', 'Logo_Band.html'],
-    ['Offset Cards', 'Offset_Cards.html'],
-    ['Product Comparison Table', 'Product_Comparison_Table.html'],
-    ['Prose Block Quote', 'Prose_Block_Quote.html'],
-    ['Prose Full-Width Illustration', 'Prose_Full-Width_Illustration.html'],
-    ['Prose II', 'Prose_II.html'],
-    ['Prose Inline Media Player', 'Prose_Inline_Media_Player.html'],
-    ['Prose Listicle', 'Prose_Listicle.html'],
-    ['Prose Table of Contents', 'Prose_Table_of_Contents.html'],
-    ['Prose', 'Prose.html'],
-    ['ProseGroup Region', 'ProseGroup_Region.html'],
-    ['Quote Band', 'Quote_Band.html'],
-    ['Section Header', 'Section_HEader.html'],
-    ['SEO - URL & Breadcrumb', 'SEO-_URL_Breadcrumb.html'],
-    ['Showcase Product', 'Showcase_Product.html'],
-    ['Stat Band', 'Stat_Band.html'],
-    ['Tabbed Band with Tiles', 'Tabbed_Band_Tiles.html'],
-    ['Tabbed Band', 'Tabbed_Band.html'],
-    ['Title', 'Title.html']
+    ['Accordions', 'Accordions.html', 'n-accordion-band', ''],
+    ['Back to Top', 'Back_to_Top.html', 'n-back-to-top', ''],
+    ['Callout', 'Callout.html', 'n-call-out', ''],
+    ['Card Band With Images', 'Card_Band_Images.html', 'n-card-band-images', ''],
+    ['Card Band', 'Card_Band.html', 'n-card-band', ''],
+    ['Fancy Callout', 'Fancy_Callout.html', 'n-fancy-callout', ''],
+    ['Feature Tiles', 'Feature_Tiles.html', 'n-feature-tiles', ''],
+    ['Hero', 'Hero_Full.html', 'n-hero', ''],
+    ['Image with 3 Tabs', 'Image_with_3_Tabs.html', 'n-image-tabs', ''],
+    ['Image with Tiles', 'Image_with_Tiles.html', 'n-image-with-tiles', ''],
+    ['Intro', 'Intro.html', 'n-intro', ''],
+    ['Logo Band', 'Logo_Band.html', 'n-logo-band', ''],
+    ['Offset Cards', 'Offset_Cards.html', 'n-offset-cards', ''],
+    ['Product Comparison Table', 'Product_Comparison_Table.html', ' ', ''],
+    ['Prose Block Quote', 'Prose_Block_Quote.html', '', ''],
+    ['Prose Full-Width Illustration', 'Prose_Full-Width_Illustration.html', 'n-prose-illustration-full-width', ''],
+    ['Prose II', 'Prose_II.html', ' ', ''],
+    ['Prose Inline Media Player', 'Prose_Inline_Media_Player.html', 'n-prose-inline-media', ''],
+    ['Prose Listicle', 'Prose_Listicle.html', 'n-prose-listicle', ''],
+    ['Prose Table of Contents', 'Prose_Table_of_Contents.html', 'n-prose-table-of-contents', ''],
+    ['Prose', 'Prose.html', 'n-prose', ''],
+    ['ProseGroup Region', 'ProseGroup_Region.html', ' ', ''],
+    ['Quote Band', 'Quote_Band.html', 'n-quote-band', ''],
+    ['Section Header', 'Section_HEader.html', 'n-section-header', ''],
+    ['SEO - URL & Breadcrumb', 'SEO-_URL_Breadcrumb.html', ' ', ''],
+    ['Showcase Product', 'Showcase_Product.html', 'n-showcase', ''],
+    ['Side by Side 2 Tab', 'Side_x_Side_2_Tabs.html', 'n-side-x-side-tabs', ''],
+    ['Stat Band', 'Stat_Band.html', 'n-stat-band', ''],
+    ['Tabbed Band with Tiles', 'Tabbed_Band_Tiles.html', 'n-tabbed-band-tiles', ''],
+    ['Tabbed Band', 'Tabbed_Band.html', 'n-tabbed-band', ''],
+    ['Title', 'Title.html', 'n-title', '']
 ]
+
+
+
 
 listOfComponents.sort(); //put the array in order so the menu is in alphabetical order
 
@@ -113,6 +110,34 @@ for (var j = 0; j < listOfComponents.length; j++) {
     )
 }
 
+//load Template pages into the component array from local source files.
+var client = [],
+    i;
+console.log("Loading Local Templates...");
+
+for (i = 0; i < listOfComponents.length; i++) {
+    //console.log("current i");
+    //console.log(i);
+    (function (i) {
+        client[i] = new XMLHttpRequest();
+        //path is the parent menu item id + the file name
+        client[i].open('POST', 'Templates' + '/' + listOfComponents[i][1]);
+        client[i].onreadystatechange = function () {
+            //console.log("client ");
+            //console.log(client[i]);
+            if (client[i].readyState == 4 && client[i].status == 200) {
+                listOfComponents[i][3] = client[i].response;
+                //console.log(listOfComponents[i][0]);
+                //console.log(listOfComponents[i][3]);
+                if ((i + 1) >= listOfComponents.length) {
+                    console.log("Loaded.");
+                }
+            }
+        }
+        client[i].send();
+    })(i);
+}
+
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
     //console.log(tab);
     //console.log(info);
@@ -120,8 +145,8 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     var text;
     for (var j = 0; j < listOfComponents.length; j++) {
         if (info.menuItemId == listOfComponents[j][0] || info.menuItemId == (listOfComponents[j][0] + " ")) {
-            //console.log("info.menuItemId: ");
-            //console.log(info.menuItemId);
+            console.log("info.menuItemId: ");
+            console.log(info.menuItemId);
             var client = new XMLHttpRequest();
             //path is the parent menu item id + the file name
             client.open('POST', info.parentMenuItemId + '/' + listOfComponents[j][1]);
@@ -136,30 +161,32 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
         }
     }
 
-    function copyToClipBoard(textToCopy) {
-        var dummy = document.createElement("textarea");
-        // to avoid breaking orgain page when copying more words
-        // cant copy when adding below this code
-        // dummy.style.display = 'none'
-        document.body.appendChild(dummy);
-        //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
-        dummy.value = textToCopy;
-        dummy.select();
-        document.execCommand("copy");
-        document.body.removeChild(dummy);
 
-        function copyToClip(str) {
-            function listener(e) {
-                e.clipboardData.setData("text/html", str);
-                e.clipboardData.setData("text/plain", str);
-                e.preventDefault();
-            }
-            document.addEventListener("copy", listener);
-            document.execCommand("copy");
-            document.removeEventListener("copy", listener);
-        };
-    }
 });
+
+function copyToClipBoard(textToCopy) {
+    var dummy = document.createElement("textarea");
+    // to avoid breaking orgain page when copying more words
+    // cant copy when adding below this code
+    // dummy.style.display = 'none'
+    document.body.appendChild(dummy);
+    //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
+    dummy.value = textToCopy;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+
+    function copyToClip(str) {
+        function listener(e) {
+            e.clipboardData.setData("text/html", str);
+            e.clipboardData.setData("text/plain", str);
+            e.preventDefault();
+        }
+        document.addEventListener("copy", listener);
+        document.execCommand("copy");
+        document.removeEventListener("copy", listener);
+    };
+};
 
 chrome.browserAction.onClicked.addListener(function (tab) {
     chrome.tabs.executeScript(null, {
@@ -174,15 +201,16 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 });
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        console.log(sender.tab ?
-            "from a content script: " + sender.tab.url :
-            "from the extension");
-        console.log("======sendResponse====== ");
-        console.log(sendResponse);
-        console.log("======sender====== ");
+        console.log("sender:");
         console.log(sender);
-        console.log("======request====== ");
-        console.log(request);
+        console.log("sender.tab.url: " + sender.tab.url);
+        findComponents(sender.tab.url);
+        //console.log("======sendResponse====== ");
+        //console.log(sendResponse);
+        //console.log("======sender====== ");
+        //console.log(sender.tab.url);
+        //console.log("======request====== ");
+        //console.log(request);
         if (request.greeting == "hello")
             sendResponse({
                 farewell: "goodbye"
@@ -190,3 +218,40 @@ chrome.runtime.onMessage.addListener(
 
     }
 );
+
+function findComponents(url) {
+    console.log("findComponents");
+
+    if (url.includes("quickwires.html")) { //if the url has quickwires.html in its path, find the components in the url
+        findComponentsInURL(url);
+    }
+
+};
+
+function findComponentsInURL(url) {
+    var components = url.split("#"); //get the string after "#" in the URL
+    components = components[1].split(".");
+    for (var i = 0; i < components.length; i++) {
+
+        components[i] = components[i].replace(/[0-9]|\&/g, '');
+        //console.log(components[i]);
+    }
+    console.log(components);
+    buildTempltePage(components);
+}
+
+function buildTempltePage(components) {
+    var pageTemplate = "";
+    for (var i = 0; i < components.length; i++) {
+        for (var j = 0; j < listOfComponents.length; j++) {
+            if (components[i] == listOfComponents[j][2])
+                pageTemplate = pageTemplate + listOfComponents[j][3];
+        }
+
+    }
+
+    copyToClipBoard(pageTemplate);
+
+
+
+};
