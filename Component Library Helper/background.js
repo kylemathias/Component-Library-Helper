@@ -11,9 +11,6 @@ var welcomeapitemplates = "https://api.welcomesoftware.com/v2/feed/fec5e597c79e1
 var contextMenus = {};
 var currentDom;
 
-
-
-
 function sendPasteToContentScript(toBePasted) {
 
     toBePasted = "test Value";
@@ -65,7 +62,7 @@ var listOfComponents = [
     ['Logo Band', 'Logo_Band.html', 'n-logo-band', ''],
     ['Offset Cards', 'Offset_Cards.html', 'n-offset-cards', ''],
     ['Product Comparison Table', 'Product_Comparison_Table.html', ' ', ''],
-    ['Prose Block Quote', 'Prose_Block_Quote.html', '', ''],
+    ['Prose Block Quote', 'Prose_Block_Quote.html', ' ', ''],
     ['Prose Full-Width Illustration', 'Prose_Full-Width_Illustration.html', 'n-prose-illustration-full-width', ''],
     ['Prose II', 'Prose_II.html', ' ', ''],
     ['Prose Inline Media Player', 'Prose_Inline_Media_Player.html', 'n-prose-inline-media', ''],
@@ -73,7 +70,7 @@ var listOfComponents = [
     ['Prose Table of Contents', 'Prose_Table_of_Contents.html', 'n-prose-table-of-contents', ''],
     ['Prose', 'Prose.html', 'n-prose', ''],
     ['ProseGroup Region', 'ProseGroup_Region.html', ' ', ''],
-    ['Quote Band', 'Quote_Band.html', 'n-quote-band', ''],
+    ['Quote Band', 'Quote_Band.html', 'n-quote-band', ' '],
     ['Section Header', 'Section_HEader.html', 'n-section-header', ''],
     ['SEO - URL & Breadcrumb', 'SEO-_URL_Breadcrumb.html', ' ', ''],
     ['Showcase Product', 'Showcase_Product.html', 'n-showcase', ''],
@@ -127,6 +124,7 @@ for (i = 0; i < listOfComponents.length; i++) {
             //console.log(client[i]);
             if (client[i].readyState == 4 && client[i].status == 200) {
                 listOfComponents[i][3] = client[i].response;
+
                 //console.log(listOfComponents[i][0]);
                 //console.log(listOfComponents[i][3]);
                 if ((i + 1) >= listOfComponents.length) {
@@ -235,13 +233,27 @@ function findComponentsInURL(url) {
 
         components[i] = components[i].replace(/[0-9]|\&/g, '');
         //console.log(components[i]);
+        if (components[i] == "" || components[i] == '') {
+           
+        }
     }
+    //remove empty strings 
+    components = components.filter(Boolean);   
     console.log(components);
     buildTempltePage(components);
 }
 
+
+
 function buildTempltePage(components) {
     var pageTemplate = "";
+    for (var k = 0; k < listOfComponents.length; k++) {
+        if (listOfComponents[k][1] == 'SEO-_URL_Breadcrumb.html') {
+            //console.log("seo found");
+            pageTemplate = listOfComponents[k][3];
+        }
+    }
+
     for (var i = 0; i < components.length; i++) {
         for (var j = 0; j < listOfComponents.length; j++) {
             if (components[i] == listOfComponents[j][2])
