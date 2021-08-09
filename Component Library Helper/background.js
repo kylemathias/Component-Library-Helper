@@ -74,6 +74,7 @@ var listOfComponents = [
     ['Section Header', 'Section_HEader.html', 'n-section-header', ''],
     ['SEO - URL & Breadcrumb', 'SEO-_URL_Breadcrumb.html', ' ', ''],
     ['Showcase Product', 'Showcase_Product.html', 'n-showcase', ''],
+    ['Side x Side', 'Side_x_Side.html', 'n-side-x-side', ''],
     ['Side by Side 2 Tab', 'Side_x_Side_2_Tabs.html', 'n-side-x-side-tabs', ''],
     ['Stat Band', 'Stat_Band.html', 'n-stat-band', ''],
     ['Tabbed Band with Tiles', 'Tabbed_Band_Tiles.html', 'n-tabbed-band-tiles', ''],
